@@ -1,0 +1,6 @@
+{
+  "name": "International Chess - អុកអន្តរជាតិ",
+  "description": "An ultra-premium chess game applet featuring Player vs Player, Player vs AI, and AI vs AI modes with a beautiful responsive interface and full Khmer translations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
