@@ -1,6 +1,13 @@
 import { PieceType, PieceColor, Piece, Position, Move } from './types';
 
-export const pieceSymbols: Record<PieceType, string> = { 'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟' };
+export const pieceSymbols: Record<PieceType, string> = { 
+    'k': '\u265A\uFE0E', // ♚
+    'q': '\u265B\uFE0E', // ♛
+    'r': '\u265C\uFE0E', // ♜
+    'b': '\u265D\uFE0E', // ♝
+    'n': '\u265E\uFE0E', // ♞
+    'p': '\u265F\uFE0E'  // ♟
+};
 
 export const pieceValues: Record<PieceType, number> = { 'p': 10, 'n': 30, 'b': 30, 'r': 50, 'q': 90, 'k': 9000 };
 

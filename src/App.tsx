@@ -115,9 +115,11 @@ export default function App() {
 
   // ================= UI Elements =================
   const getPieceIcon = (type: PieceType, color: PieceColor) => {
+      // ប្រើ text-white សម្រាប់គ្រាប់អុកស និង text-black សម្រាប់អុកខ្មៅ
+      // ព្រមទាំងបន្ថែមស្រមោល (drop-shadow) ឱ្យមើលទៅលេចធ្លោលើក្ដារអុក
       return (
           <span className={`chess-piece text-5xl md:text-6xl lg:text-7xl select-none transition-transform duration-200 
-              ${color === 'w' ? 'text-[#f8fafc] drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)]' : 'text-[#1e293b] drop-shadow-[0_2px_4px_rgba(255,255,255,0.3)]'}`}>
+              ${color === 'w' ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-black drop-shadow-[0_2px_4px_rgba(255,255,255,0.6)]'}`}>
               {pieceSymbols[type]}
           </span>
       );
@@ -127,9 +129,12 @@ export default function App() {
       const value: Record<PieceType, number> = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
       const sorted = [...pieces].sort((a, b) => value[a] - value[b]);
       return (
-          <div className="flex flex-wrap gap-[1px] min-h-[1.5rem] mt-1 opacity-80 animate-fade-in">
+          <div className="flex flex-wrap gap-[1px] min-h-[1.5rem] mt-1 opacity-80">
               {sorted.map((p, i) => (
-                  <span key={i} className={`text-xl md:text-2xl leading-none ${isWhitePieces ? 'text-white' : 'text-slate-900'}`}>{pieceSymbols[p]}</span>
+                  <span key={i} className={`chess-piece text-xl md:text-2xl leading-none 
+                      ${isWhitePieces ? 'text-white drop-shadow-md' : 'text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]'}`}>
+                      {pieceSymbols[p]}
+                  </span>
               ))}
           </div>
       );
@@ -145,7 +150,7 @@ export default function App() {
               <div className="bg-white/5 backdrop-blur-3xl p-8 md:p-12 rounded-[2.5rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] border border-white/10 max-w-lg w-full text-center z-10 animate-fade-in relative overflow-hidden">
                   <div className="absolute -top-20 -left-20 w-40 h-40 bg-cyan-400/20 rounded-full blur-3xl"></div>
                   
-                  <div className="text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400 drop-shadow-lg">♞</div>
+                  <div className="text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400 drop-shadow-lg chess-piece">♞{'\uFE0E'}</div>
                   <h1 className="text-5xl font-black mb-2 tracking-tight text-white drop-shadow-md">អុកអន្តរជាតិ</h1>
                   <p className="text-cyan-400/80 mb-10 text-sm md:text-base font-medium tracking-widest uppercase">Premium Chess Edition</p>
 
@@ -188,7 +193,7 @@ export default function App() {
                   <div className="flex flex-col gap-6">
                       {gameMode === 'pvp' ? (
                           <div className="text-center text-slate-300 bg-white/5 p-6 rounded-2xl border border-white/10 shadow-inner">
-                              <span className="text-4xl block mb-2">♔</span>
+                              <span className="text-4xl block mb-2 chess-piece text-white drop-shadow-md">♚{'\uFE0E'}</span>
                               អ្នកកាន់អុកស នឹងចាប់ផ្ដើមដើរមុន។ ត្រៀមខ្លួនសម្រាប់សង្គ្រាម!
                           </div>
                       ) : (
@@ -201,7 +206,7 @@ export default function App() {
                               <div className="flex flex-col gap-5">
                                   {gameMode === 'eve' && (
                                       <div className="space-y-2">
-                                          <span className="text-slate-300 text-xs font-bold uppercase tracking-wider pl-1">AI ពណ៌ស (♔)</span>
+                                          <span className="text-slate-300 text-xs font-bold uppercase tracking-wider pl-1">AI ពណ៌ស</span>
                                           <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/5">
                                               {['easy', 'medium', 'hard'].map(level => (
                                                   <button id={`btn-aiw-${level}`} key={level} onClick={() => setAiDifficultyW(level)} className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${aiDifficultyW === level ? 'bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
@@ -214,7 +219,7 @@ export default function App() {
                                   
                                   <div className="space-y-2">
                                       <span className="text-slate-300 text-xs font-bold uppercase tracking-wider pl-1">
-                                          {gameMode === 'pve' ? 'AI គូប្រជែង (♚)' : 'AI ពណ៌ខ្មៅ (♚)'}
+                                          {gameMode === 'pve' ? 'AI គូប្រជែង (ខ្មៅ)' : 'AI ពណ៌ខ្មៅ'}
                                       </span>
                                       <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/5">
                                           {['easy', 'medium', 'hard'].map(level => (
@@ -315,7 +320,7 @@ export default function App() {
             {/* Player Bottom (White) */}
             <div className={`flex justify-between items-center px-4 py-3 bg-white/5 backdrop-blur-md rounded-2xl border ${turn === 'w' ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'border-white/5 shadow-lg'} ${isFlipped ? 'order-1' : 'order-3'} transition-all`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-slate-200 border border-slate-300 flex items-center justify-center text-3xl shadow-inner text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.4)]">♔</div>
+                    <div className="w-12 h-12 rounded-xl bg-slate-200 border border-slate-300 flex items-center justify-center text-3xl shadow-inner text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)] chess-piece">♚{'\uFE0E'}</div>
                     <div className="flex flex-col">
                         <span className="text-white font-bold tracking-wide">{gameMode === 'eve' ? 'AI' : 'អ្នកលេង'} (ស)</span>
                         {renderCaptured(capturedBlack, false)}
@@ -340,8 +345,8 @@ export default function App() {
                     {/* Glowing effect inside modal */}
                     <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full blur-[80px] ${isDraw ? 'bg-slate-500' : (winner === 'w' ? 'bg-cyan-500' : 'bg-purple-500')} opacity-50`}></div>
                     
-                    <div className="text-8xl mb-6 relative z-10 drop-shadow-2xl">
-                        {isDraw ? '🤝' : (winner === 'w' ? '♔' : '♚')}
+                    <div className="text-8xl mb-6 relative z-10 drop-shadow-2xl chess-piece">
+                        {isDraw ? '🤝' : (winner === 'w' ? <span className="text-white drop-shadow-md">♚{'\uFE0E'}</span> : <span className="text-black drop-shadow-[0_2px_4px_rgba(255,255,255,0.6)]">♚{'\uFE0E'}</span>)}
                     </div>
                     <h2 id="modal-title" className={`text-4xl font-black mb-3 relative z-10 tracking-tight ${isDraw ? 'text-white' : (winner === 'w' ? 'text-cyan-400' : 'text-purple-400')}`}>
                         {isDraw ? 'ស្មើគ្នា!' : (winner === 'w' ? 'អុកស ឈ្នះ!' : 'អុកខ្មៅ ឈ្នះ!')}
@@ -379,7 +384,10 @@ export default function App() {
             @keyframes check-pulse { 0%, 100% { transform: translate(-50%, 0) scale(1); } 50% { transform: translate(-50%, 0) scale(1.05); } }
             .animate-check-pulse { animation: check-pulse 1s infinite; }
 
-            .chess-piece { font-family: "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+            /* ប្រើ Font ស្តង់ដារ ដើម្បីបញ្ចៀស Emoji Mode របស់ប្រព័ន្ធប្រតិបត្តិការ (OS) */
+            .chess-piece { 
+                font-family: Arial, Helvetica, "Segoe UI", sans-serif;
+            }
         `}} />
     </div>
   );
